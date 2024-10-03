@@ -1,4 +1,3 @@
-// App.js
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ProjectsMaster from '../Profile/Projects/ProjectMaster';
 import ConsultancyProjects from '../Profile/Projects/ConsultancyProjects';
@@ -13,6 +12,11 @@ import ConferenceMaster from '../Profile/Conference/ConferenceMaster';
 import AchievementsForm from '../Profile/Others/Achievements';
 import ExpertLecturesForm from '../Profile/Others/ExpertLectures';
 import OtherMaster from '../Profile/Others/OtherMaster';
+import ResearchProjects from '../Profile/Projects/ResearchProjects';
+import Journal from '../Profile/Publications/Journal';
+import Conference from '../Profile/Publications/Conference';
+import Books from '../Profile/Publications/Books';
+import PublicationsMaster from '../Profile/Publications/PublicationsMaster';
 
 function ProfileButtons() {
   return (
@@ -34,9 +38,17 @@ function ProfileButtons() {
           <Routes>
 
             <Route path="/projects" element={<ProjectsMaster />} >
-                <Route index element={<ConsultancyProjects />} />
+                <Route index element={<ResearchProjects />} />
+                <Route path='research-projects' element={<ResearchProjects />} />
                 <Route path="consultancy-projects" element={<ConsultancyProjects />} />
                 <Route path="patents" element={<Patents />} />
+            </Route>
+
+            <Route path="/publications" element={<PublicationsMaster />} >
+                <Route index element={<Journal />} />
+                <Route path='journal' element={<Journal />} />
+                <Route path="conference" element={<Conference />} />
+                <Route path="books" element={<Books />} />
             </Route>
 
             <Route path="/events" element={<EventMaster />} >

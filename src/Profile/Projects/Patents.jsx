@@ -1,60 +1,76 @@
-import { useState } from 'react'
-import { Save } from 'lucide-react'
-import axios from 'axios'
+import { useState,useEffect } from "react";
+import { Save } from "lucide-react";
+import axios from "axios";
 
 export default function Patents() {
   const [inputs, setInputs] = useState({
-    patentNumber: '',
-    status: '',
-    earnings: '',
-    year: '',
-    month: '',
-    title: ''
-  })
-  const [isLoading, setIsLoading] = useState(false)
+    patentNumber: "",
+    status: "",
+    earnings: "",
+    year: "",
+    month: "",
+    title: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      setIsLoading(true)
-      const res = await axios.post('/consultant_insert', inputs)
-      console.log(res.data)
+      setIsLoading(true);
+      const res = await axios.post("/consultant_insert", inputs);
+      console.log(res.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const handleDelete = async () =>{
+  const handleDelete = async () => {
     try {
-      
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
+  // let tableData = [];
+  // useEffect(() => {
+  //   const getTableData = async () => {
+  //     try {
+  //       const res = await axios.get("/get_data");
+  //       tableData = res.data;
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getTableData();
+  // }, []);
 
   const tableData = Array.from({ length: 10 }, (_, index) => ({
     id: index + 1,
     patentNumber: `Patent No ${index + 1}`,
     title: `Title ${String.fromCharCode(65 + index)}`,
-    status: ["Filed", "Granted", "Published", "Owned"][Math.floor(Math.random() * 4)],
+    status: ["Filed", "Granted", "Published", "Owned"][
+      Math.floor(Math.random() * 4)
+    ],
     year: `Jan 202${index % 10}`,
     earnings: `${(index + 1) * 10000}`,
-  }))
+  }));
 
-  const years = Array.from({ length: 31 }, (_, i) => (2000 + i).toString())
-  const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString())
+  const years = Array.from({ length: 31 }, (_, i) => (2000 + i).toString());
+  const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-2xl w-full max-w-[4910px] border-l-8 border-customSaveButtonColor">
+    <div className="bg-white p-6 rounded-lg shadow-inner w-full max-w-[4910px] border-l-8 border-customSaveButtonColor">
       <h1 className="text-lg font-medium text-gray-800 mb-1">Add a Patent</h1>
       <hr />
       <form className="space-y-6 my-5" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="patent-number" className="block text-sm font-medium text-gray-700">Patent Number</label>
+            <label
+              htmlFor="patent-number"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Patent Number
+            </label>
             <input
               type="text"
               required
@@ -62,11 +78,18 @@ export default function Patents() {
               placeholder="Patent Number"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-light-blue-400"
               value={inputs.patentNumber}
-              onChange={(e) => setInputs({ ...inputs, patentNumber: e.target.value })}
+              onChange={(e) =>
+                setInputs({ ...inputs, patentNumber: e.target.value })
+              }
             />
           </div>
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 ml-1">Status</label>
+            <label
+              htmlFor="status"
+              className="block text-sm font-medium text-gray-700 ml-1"
+            >
+              Status
+            </label>
             <select
               id="status"
               placeholder="Status"
@@ -74,7 +97,9 @@ export default function Patents() {
               value={inputs.status}
               onChange={(e) => setInputs({ ...inputs, status: e.target.value })}
             >
-              <option value="" disabled>Status</option>
+              <option value="" disabled>
+                Status
+              </option>
               <option value="Filed">Filed</option>
               <option value="Granted">Granted</option>
               <option value="Published">Published</option>
@@ -85,19 +110,31 @@ export default function Patents() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label htmlFor="earnings" className="block text-sm font-medium text-gray-700">Earnings (in Rs.)</label>
+            <label
+              htmlFor="earnings"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Earnings (in Rs.)
+            </label>
             <input
               type="number"
               required
               id="earnings"
               placeholder="Earnings"
               value={inputs.earnings}
-              onChange={(e) => setInputs({ ...inputs, earnings: e.target.value })}
+              onChange={(e) =>
+                setInputs({ ...inputs, earnings: e.target.value })
+              }
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-light-blue-400"
             />
           </div>
           <div>
-            <label htmlFor="year" className="block text-sm font-medium text-gray-700 ml-1">Year</label>
+            <label
+              htmlFor="year"
+              className="block text-sm font-medium text-gray-700 ml-1"
+            >
+              Year
+            </label>
             <select
               id="year"
               placeholder="Year"
@@ -105,7 +142,9 @@ export default function Patents() {
               value={inputs.year}
               onChange={(e) => setInputs({ ...inputs, year: e.target.value })}
             >
-              <option value="" disabled>Year</option>
+              <option value="" disabled>
+                Year
+              </option>
               {years.map((year) => (
                 <option key={year} value={year}>
                   {year}
@@ -114,7 +153,12 @@ export default function Patents() {
             </select>
           </div>
           <div>
-            <label htmlFor="month" className="block text-sm font-medium text-gray-700 ml-1">Month</label>
+            <label
+              htmlFor="month"
+              className="block text-sm font-medium text-gray-700 ml-1"
+            >
+              Month
+            </label>
             <select
               id="month"
               placeholder="Select Month"
@@ -122,7 +166,9 @@ export default function Patents() {
               value={inputs.month}
               onChange={(e) => setInputs({ ...inputs, month: e.target.value })}
             >
-              <option value="" disabled>Month</option>
+              <option value="" disabled>
+                Month
+              </option>
               {months.map((month) => (
                 <option key={month} value={month}>
                   {month}
@@ -133,7 +179,12 @@ export default function Patents() {
         </div>
 
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Title
+          </label>
           <input
             type="text"
             required
@@ -169,30 +220,59 @@ export default function Patents() {
               <th className="border border-gray-300 px-4 py-2">Title</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
               <th className="border border-gray-300 px-4 py-2">Year</th>
-              <th className="border border-gray-300 px-4 py-2">Earning (Rs.)</th>
+              <th className="border border-gray-300 px-4 py-2">
+                Earning (Rs.)
+              </th>
               <th className="border border-gray-300 px-4 py-2">Action</th>
             </tr>
           </thead>
           <tbody>
-            {tableData.map((data, index) => (
-              <tr
-                key={index}
-                className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} hover:bg-gray-200`}
-              >
-                <td className="border border-gray-300 px-4 py-2">{data.id}</td>
-                <td className="border border-gray-300 px-4 py-2">{data.patentNumber}</td>
-                <td className="border border-gray-300 px-4 py-2">{data.title}</td>
-                <td className="border border-gray-300 px-4 py-2">{data.status}</td>
-                <td className="border border-gray-300 px-4 py-2">{data.year}</td>
-                <td className="border border-gray-300 px-4 py-2">{data.earnings}</td>
-                <td className="border border-gray-300 px-4 py-2 text-left">
-                  <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>Delete</button>
+            {tableData.length > 0 ? (
+              tableData.map((data, index) => (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } hover:bg-gray-200`}
+                >
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.id}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.patentNumber}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.title}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.status}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.year}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {data.earnings}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-left">
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 border border-transparent transition duration-200"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center p-4">
+                  No Data Available
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
     </div>
-  )
+  );
 }

@@ -29,7 +29,7 @@ function ProjectsMaster() {
     <div className="project-master-container">
       {/* Navigation buttons */}
       <nav style={{ marginBottom: '20px' }}>
-        <Link to="research-projects" style={{ marginRight: '20px' }}>Research Projects</Link>
+        <Link to="/projects/research-projects" style={{ marginRight: '20px' }}>Research Projects</Link>
         <Link to="/projects/consultancy-projects" style={{ marginRight: '20px' }}>Consultancy Projects</Link>
         <Link to="/projects/patents" style={{ marginRight: '20px' }}>Patents</Link>
       </nav>

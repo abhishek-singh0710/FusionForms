@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Save } from "lucide-react";
 import axios from "axios";
 
-export default function ConsultancyProjects() {
+export default function Conference() {
   const [inputs, setInputs] = useState({
-    consultant: "",
-    client: "",
-    financialOutlay: "",
-    startDate: "",
-    endDate: "",
+    author: "",
+    coAuthor: "",
+    journalName: "",
+    journalFile: File,
+    year: "",
     title: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function ConsultancyProjects() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const res = await axios.post("/consultant_insert", inputs);
+      const res = await axios.post("/author_insert", inputs);
       console.log(res.data);
     } catch (error) {
       console.log(error);
@@ -49,56 +49,55 @@ export default function ConsultancyProjects() {
   // }, []);
 
   const tableData = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    consultant: `Consultant ${index + 1}`,
-    title: `Consultancy ${String.fromCharCode(65 + index)}`,
-    client: `Client ${String.fromCharCode(65 + index)}`,
-    financialOutlay: `${(index + 1) * 10000}`,
-    period: `Jan 202${index % 10} - Dec 202${(index % 10) + 1}`,
-  }))
+    id: `${index + 1}`,
+    title: `Title of Paper ${index + 1}`,
+    author: `Author ${String.fromCharCode(65 + index)}`,
+    details: `Details ${String.fromCharCode(65 + index)}`,
+    download: `Download Link`,
+  }));
+
+  const years = Array.from({ length: 31 }, (_, i) => (2000 + i).toString());
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-inner w-full max-w-[4910px] border-l-8 border-customSaveButtonColor">
-      <h1 className="text-lg font-medium text-gray-800 mb-1">
-        Add a Consultancy Project
-      </h1>
+      <h1 className="text-lg font-medium text-gray-800 mb-1">Add a Journal</h1>
       <hr />
       <form className="space-y-6 my-5" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label
-              htmlFor="consultant"
+              htmlFor="author"
               className="block text-sm font-medium text-gray-700"
             >
-              Consultant
+              Author
             </label>
             <input
               type="text"
               required
-              id="consultant"
-              placeholder="Consultant"
+              id="author"
+              placeholder="Author"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              value={inputs.consultant}
-              onChange={(e) =>
-                setInputs({ ...inputs, consultant: e.target.value })
-              }
+              value={inputs.author}
+              onChange={(e) => setInputs({ ...inputs, author: e.target.value })}
             />
           </div>
           <div>
             <label
-              htmlFor="client"
+              htmlFor="coAuthor"
               className="block text-sm font-medium text-gray-700"
             >
-              Client
+              Co-author(s)
             </label>
             <input
               type="text"
               required
-              id="client"
-              placeholder="Client"
+              id="coAuthor"
+              placeholder="Co-Author"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              value={inputs.client}
-              onChange={(e) => setInputs({ ...inputs, client: e.target.value })}
+              value={inputs.coAuthor}
+              onChange={(e) =>
+                setInputs({ ...inputs, coAuthor: e.target.value })
+              }
             />
           </div>
         </div>
@@ -106,59 +105,56 @@ export default function ConsultancyProjects() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label
-              htmlFor="financial-outlay"
+              htmlFor="journalName"
               className="block text-sm font-medium text-gray-700"
             >
-              Financial Outlay
+              Journal Name
             </label>
             <input
-              type="number"
+              type="text"
               required
-              id="financial-outlay"
-              placeholder="Publisher"
-              value={inputs.financialOutlay}
+              id="journalName"
+              placeholder="Name of the Journal"
+              value={inputs.journalName}
               onChange={(e) =>
-                setInputs({ ...inputs, financialOutlay: e.target.value })
+                setInputs({ ...inputs, journalName: e.target.value })
               }
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
           <div>
             <label
-              htmlFor="start-date"
+              htmlFor="journalFile"
               className="block text-sm font-medium text-gray-700"
             >
-              Start Date
+              Insert File
             </label>
             <input
-              type="date"
-              id="start-date"
-              placeholder="Start"
-              required
-              value={inputs.startDate}
+              type="file"
+              id="journalFile"
               onChange={(e) =>
-                setInputs({ ...inputs, startDate: e.target.value })
+                setInputs({ ...inputs, journalFile: e.target.files[0] })
               }
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
           <div>
-            <label
-              htmlFor="end-date"
-              className="block text-sm font-medium text-gray-700"
-            >
-              End Date
-            </label>
-            <input
-              type="date"
-              id="end-date"
-              required
-              value={inputs.endDate}
-              onChange={(e) =>
-                setInputs({ ...inputs, endDate: e.target.value })
-              }
+            <label htmlFor="year" className="block text-sm font-medium text-gray-700">Year</label>
+            <select
+              id="year"
+              value={inputs.year}
+              onChange={(e) => setInputs({ ...inputs, year: e.target.value })}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
+            >
+              <option value="" disabled>
+                Year
+              </option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -194,22 +190,16 @@ export default function ConsultancyProjects() {
 
       <h1 className="font-medium text-gray-800 mb-1 mt-6">Report:</h1>
       <hr className="mb-4" />
-      {/* <h1 className="font-medium text-gray-800 my-1">Page of:</h1> */}
 
       <div className="overflow-x-auto max-h-[400px]">
         <table className="min-w-full table-auto border-collapse border border-gray-200 text-left">
           <thead className="sticky top-0 bg-gray-400">
             <tr className="font-semibold text-gray-800">
               <th className="border border-gray-300 px-4 py-2">Sr</th>
-              <th className="border border-gray-300 px-4 py-2">
-                Consultant(s)
-              </th>
-              <th className="border border-gray-300 px-4 py-2">Title</th>
-              <th className="border border-gray-300 px-4 py-2">Client</th>
-              <th className="border border-gray-300 px-4 py-2">
-                Financial Outlay
-              </th>
-              <th className="border border-gray-300 px-4 py-2">Period</th>
+              <th className="border border-gray-300 px-4 py-2">Title of Paper</th>
+              <th className="border border-gray-300 px-4 py-2">Authors</th>
+              <th className="border border-gray-300 px-4 py-2">Details</th>
+              <th className="border border-gray-300 px-4 py-2">Download</th>
               <th className="border border-gray-300 px-4 py-2">Action</th>
             </tr>
           </thead>
@@ -226,19 +216,16 @@ export default function ConsultancyProjects() {
                     {data.id}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {data.consultant}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
                     {data.title}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {data.client}
+                    {data.author}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {data.financialOutlay}
+                    {data.details}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {data.period}
+                    {data.download}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-left">
                     <button
@@ -252,8 +239,8 @@ export default function ConsultancyProjects() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="text-center p-4">
-                No Data Available
+                <td colSpan={6} className="text-center py-4">
+                  No Data Found
                 </td>
               </tr>
             )}
