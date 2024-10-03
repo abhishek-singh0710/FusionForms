@@ -17,6 +17,9 @@ import Journal from '../Profile/Publications/Journal';
 import Conference from '../Profile/Publications/Conference';
 import Books from '../Profile/Publications/Books';
 import PublicationsMaster from '../Profile/Publications/PublicationsMaster';
+import ThesisSupervisionMaster from '../Profile/ThesisSupervision/ThesisSupervisionMaster';
+import PgThesis from '../Profile/ThesisSupervision/PgThesis';
+import PhdThesisForm from '../Profile/ThesisSupervision/PhdThesis';
 
 function ProfileButtons() {
   return (
@@ -27,7 +30,7 @@ function ProfileButtons() {
           <Link to="/personal-details" className="btn">Personal Details</Link>
           <Link to="/publications" className="btn">Publications</Link>
           <Link to="/projects" className="btn">Projects</Link>
-          <Link to="/thesis-supervision" className="btn">Thesis Supervision</Link>
+          <Link to="/thesis" className="btn">Thesis Supervision</Link>
           <Link to="/events" className="btn">Events</Link>
           <Link to="/visits" className="btn">Visits</Link>
           <Link to="/conferences" className="btn">Conference/Symposium</Link>
@@ -37,6 +40,13 @@ function ProfileButtons() {
         <div className="form-section mt-8">
           <Routes>
 
+          <Route path="/publications" element={<PublicationsMaster />} >
+                <Route index element={<Journal />} />
+                <Route path='journal' element={<Journal />} />
+                <Route path="conference" element={<Conference />} />
+                <Route path="books" element={<Books />} />
+            </Route>
+
             <Route path="/projects" element={<ProjectsMaster />} >
                 <Route index element={<ResearchProjects />} />
                 <Route path='research-projects' element={<ResearchProjects />} />
@@ -44,11 +54,10 @@ function ProfileButtons() {
                 <Route path="patents" element={<Patents />} />
             </Route>
 
-            <Route path="/publications" element={<PublicationsMaster />} >
-                <Route index element={<Journal />} />
-                <Route path='journal' element={<Journal />} />
-                <Route path="conference" element={<Conference />} />
-                <Route path="books" element={<Books />} />
+            <Route path="/thesis" element={<ThesisSupervisionMaster />} >
+                <Route index element={<PgThesis />} />
+                <Route path='pg' element={<PgThesis />} />
+                <Route path="phd" element={<PhdThesisForm />} />
             </Route>
 
             <Route path="/events" element={<EventMaster />} >
