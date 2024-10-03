@@ -20,6 +20,7 @@ import PublicationsMaster from '../Profile/Publications/PublicationsMaster';
 import ThesisSupervisionMaster from '../Profile/ThesisSupervision/ThesisSupervisionMaster';
 import PgThesis from '../Profile/ThesisSupervision/PgThesis';
 import PhdThesisForm from '../Profile/ThesisSupervision/PhdThesis';
+import ProfileForm from '../Profile/PersonalDetails/ProfileForm';
 
 function ProfileButtons() {
   return (
@@ -39,6 +40,8 @@ function ProfileButtons() {
 
         <div className="form-section mt-8">
           <Routes>
+
+          <Route path='/personal-details' element={<ProfileForm />} />
 
           <Route path="/publications" element={<PublicationsMaster />} >
                 <Route index element={<Journal />} />
