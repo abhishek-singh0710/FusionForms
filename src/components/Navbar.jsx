@@ -1,21 +1,30 @@
-import { Bell, ChevronDown } from 'lucide-react'
+import { useState } from 'react';
+import { Bell, ChevronRight } from 'lucide-react'
+import UserProfile from '../assests/user.png';
+import Breadcrumbs from './BreadCrumbs';
+import { Link } from 'react-router-dom';
 
 export default function Navbar({ module, subSection }) {
+  const [ notificationStatus,setNotificationStatus ] = useState(true)
   return (
-    <nav className="bg-white shadow-md h-16 flex items-center justify-between px-4">
-      <div className="flex items-center">
-        <h1 className="text-xl font-semibold">{module}</h1>
-        <ChevronDown className="w-5 h-5 ml-2" />
-        <span className="ml-2 text-gray-600">{subSection}</span>
+    <div className='flex flex-col shadow-inner h-30'>
+      <nav className="bg-white shadow-md h-16 flex items-center justify-between px-4">
+      <div className="flex items-center ml-10 mt-8 mb-8">
+        <Link href="/"><h1 className="text-xl font-semibold">{module}</h1></Link>
+        <ChevronRight className="w-7 h-7 ml-2  pt-1" />
+        <Link href="/personal-details"><span className="ml-2 text-xl font-semibold">{subSection}</span></Link>
+        <ChevronRight className="w-7 h-7 ml-2  pt-1" />
       </div>
       <div className="flex items-center">
         <button className="mr-4 relative">
-          <Bell className="w-6 h-6" />
-          <span className="absolute top-0 right-0 bg-red-500 rounded-full w-2 h-2"></span>
+          <Bell className="w-6 h-12" />
+          <span className={`absolute top-2 right-0 ${notificationStatus &&  "bg-red-500"} rounded-full w-3 h-3`}></span>
         </button>
-        <img src="/placeholder.svg?height=32&width=32" alt="User" className="w-8 h-8 rounded-full" />
+        <img src={UserProfile} alt="User" className="w-26 h-12 rounded-full" />
       </div>
     </nav>
+    <Breadcrumbs/>
+    </div>
   )
 }
 

@@ -22,11 +22,11 @@ import PgThesis from '../Profile/ThesisSupervision/PgThesis';
 import PhdThesisForm from '../Profile/ThesisSupervision/PhdThesis';
 import ProfileForm from '../Profile/PersonalDetails/ProfileForm';
 
+
 function ProfileButtons() {
   return (
-    <Router>
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold">Professional Profile</h1>
+        {/* <h1 className="text-2xl font-bold">Professional Profile</h1>
         <nav className="mt-4 flex space-x-4">
           <Link to="/personal-details" className="btn">Personal Details</Link>
           <Link to="/publications" className="btn">Publications</Link>
@@ -36,11 +36,11 @@ function ProfileButtons() {
           <Link to="/visits" className="btn">Visits</Link>
           <Link to="/conferences" className="btn">Conference/Symposium</Link>
           <Link to="/others" className="btn">Others</Link>
-        </nav>
+        </nav> */}
 
         <div className="form-section mt-8">
           <Routes>
-
+          <Route path='/' element={<ProfileForm />} />
           <Route path='/personal-details' element={<ProfileForm />} />
 
           <Route path="/publications" element={<PublicationsMaster />} >
@@ -88,7 +88,6 @@ function ProfileButtons() {
           </Routes>
         </div>
       </div>
-    </Router>
   );
 }
 

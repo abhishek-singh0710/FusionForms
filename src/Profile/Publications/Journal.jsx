@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Save } from "lucide-react";
+import { Save, ChevronRightCircle } from "lucide-react";
 import axios from "axios";
 
 export default function Conference() {
@@ -10,8 +10,17 @@ export default function Conference() {
     journalFile: File,
     year: "",
     title: "",
+    volumeNo: "",
+    pageNo: "",
+    paperNo: "",
+    submissionDate: "",
+    dop: "",
+    status: "",
+    choose: "",
+    doi: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,6 +42,10 @@ export default function Conference() {
     } catch (error) {
       console.log(res.data);
     }
+  };
+
+  const handleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   // let tableData = [];
@@ -139,7 +152,12 @@ export default function Conference() {
             />
           </div>
           <div>
-            <label htmlFor="year" className="block text-sm font-medium text-gray-700">Year</label>
+            <label
+              htmlFor="year"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Year
+            </label>
             <select
               id="year"
               value={inputs.year}
@@ -176,6 +194,184 @@ export default function Conference() {
           />
         </div>
 
+        <div
+          className="cursor-pointer flex items-center space-x-2"
+          onClick={handleDropdown}
+        >
+          <ChevronRightCircle
+            className={`transition-transform duration-300 ${
+              isDropdownOpen ? "rotate-90" : ""
+            }`}
+          />
+          <span>Optional Journal Details</span>
+        </div>
+
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isDropdownOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+            <div>
+              <label
+                htmlFor="volumeno"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Volume No./Issue No.
+              </label>
+              <input
+                type="text"
+                required
+                id="volumeno"
+                placeholder="Volume No"
+                value={inputs.volumeNo}
+                onChange={(e) =>
+                  setInputs({ ...inputs, volumeNo: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="pageno"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Page No.
+              </label>
+              <input
+                type="text"
+                required
+                id="pageno"
+                placeholder="Page No"
+                value={inputs.pageNo}
+                onChange={(e) =>
+                  setInputs({ ...inputs, pageNo: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="paperno"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Paper No.
+              </label>
+              <input
+                type="text"
+                required
+                id="paperno"
+                placeholder="Paper No."
+                value={inputs.paperNo}
+                onChange={(e) =>
+                  setInputs({ ...inputs, paperNo: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="dos"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date of Submission
+              </label>
+              <input
+                type="date"
+                required
+                id="dos"
+                placeholder="Title"
+                value={inputs.submissionDate}
+                onChange={(e) =>
+                  setInputs({ ...inputs, submissionDate: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="dop"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date of Publication(DOI)
+              </label>
+              <input
+                type="text"
+                required
+                id="dop"
+                placeholder="Date of Publication"
+                value={inputs.dop}
+                onChange={(e) => setInputs({ ...inputs, dop: e.target.value })}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            {/* status */}
+            <div>
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Status
+              </label>
+              <select
+                id="status"
+                value={inputs.status}
+                onChange={(e) =>
+                  setInputs({ ...inputs, status: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="" disabled>
+                  Status
+                </option>
+                <option value="communicated">Communicated</option>
+                <option value="accepted">Accepted</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="choose"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Choose
+              </label>
+              <select
+                id="choose"
+                value={inputs.choose}
+                onChange={(e) =>
+                  setInputs({ ...inputs, choose: e.target.value })
+                }
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="" disabled>
+                  Choose
+                </option>
+                <option value="sci">SCI</option>
+                <option value="scie">SCIE</option>
+              </select>
+            </div>
+            {/* status */}
+            <div>
+              <label
+                htmlFor="doi"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date of Issuuance(DOI)
+              </label>
+              <input
+                type="date"
+                required
+                id="doi"
+                placeholder="Title"
+                value={inputs.doi}
+                onChange={(e) => setInputs({ ...inputs, doi: e.target.value })}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="flex justify-end">
           <button
             type="submit"
@@ -196,7 +392,9 @@ export default function Conference() {
           <thead className="sticky top-0 bg-gray-400">
             <tr className="font-semibold text-gray-800">
               <th className="border border-gray-300 px-4 py-2">Sr</th>
-              <th className="border border-gray-300 px-4 py-2">Title of Paper</th>
+              <th className="border border-gray-300 px-4 py-2">
+                Title of Paper
+              </th>
               <th className="border border-gray-300 px-4 py-2">Authors</th>
               <th className="border border-gray-300 px-4 py-2">Details</th>
               <th className="border border-gray-300 px-4 py-2">Download</th>
